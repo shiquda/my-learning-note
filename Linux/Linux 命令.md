@@ -18,6 +18,7 @@ command [-options] [parameter]
 ```
 
 其中[]表示是可选项。
+
 e.g.
 
 ```linux
@@ -36,17 +37,17 @@ cp -r test1 test2
   ls命令的作用是列出目录下的内容，语法细节如下
 
 ```linux
-1s [-a -1 -h] [Linux路径]
+ls [-a -l -h] [Linux路径]
 ```
 
 - -a -l -h 是可选的选项
-  - -a：显示隐藏内容
+  - `-a`（all）：显示隐藏内容
     - 隐藏内容：以“.”开头的文件/文件夹
       - e.g. `.test.txt`
-  - -l 以列表形式展示
-  - -h 与-l搭配使用用更加人性化的方式显示文件大小的单位。
+  - `-l`（long） 以列表形式展示
+  - `-h`（human-readable） 与-l搭配使用用更加人性化的方式显示文件大小的单位。
     - e.g. 4096 =>4.0K
-  - 以上命令所以联合搭配使用，如：`ls -lah`
+  - 以上命令可以联合搭配使用，如：`ls -lah`
     - 先后顺序无要求
 - Linux路径是此命令可选的参数
 
@@ -58,14 +59,14 @@ Linux系统的命令行终端在启动的时候，默认会加载:
 
 - 当前登录用户的HOME目录作为当前工作目录，所以`ls`命令列出的是HOME目录的内容
 - HOME目录:每个Linux操作用户在Linux系统的个人账户目录,路径在:`/home/用户名`
-  - 比如Linux用户是itheima,其HOME目录是:`/home/itheima`
+  - 比如Linux用户是shiquda,其HOME目录是:`/home/shiquda`
   - Windows系统和Linux系统，均设有用户的HOME目录
 
 ##### 工作目录
 
 Linux命令行在执行命令的时候，需要一个工作目录，打开命令行程序(终端)**默认设置工作目录在用户的HOME目录**。
 
-### 目录切换相关命令
+### 目录切换相关命令（cd/pwd）
 
 #### cd：切换工作目录（Change Directory）🔗 [BV1n84y1i7td-P15-[00:21]](https://www.bilibili.com/video/BV1n84y1i7td?p=15&t=21.4)
 
@@ -86,4 +87,173 @@ cd [Linux路径]
 pwd
 ```
 
-- pwd命令**没有选项与参数**，直接输入即可
+- pwd命令**没有选项与参数**，直接输入即可显示当前路径
+
+### 相对路径、绝对路径、特殊路径符
+
+#### 相对路径和绝对路径🔗 [BV1n84y1i7td-P16-[00:18]](https://www.bilibili.com/video/BV1n84y1i7td?p=16&t=18.7)
+
+##### 相对路径
+
+以**当前目录**为起点描述路径的写法，路径描述**无需以/开头**。
+
+- e.g. `cd Desktop`
+
+##### 绝对路径
+
+以**根目录**为起点描述路径的写法，路径描述**需以/开头**。
+
+- e.g. `cd /home/shiquda/Desktop`
+
+#### 特殊路径符🔗 [BV1n84y1i7td-P16-[04:50]](https://www.bilibili.com/video/BV1n84y1i7td?p=16&t=290.6)
+
+- `.`表示当前目录
+- `..` 表示一级目录
+- `~` 表示HOME目录
+
+### 创建目录命令（mkdir）
+
+#### mkdir：创建目录（Make Directory）🔗 [BV1n84y1i7td-P17-[00:15]](https://www.bilibili.com/video/BV1n84y1i7td?p=17&t=15.2)
+
+语法：
+
+```linux
+mkdir [-p] Linux路径
+```
+
+- 参数必填，表示**Linux路径**，即要创建的文件夹的路径，**相对路径或绝对路径均可**；
+- `-p`（parents）选项可选，表示**自动创建不存在的父目录**，适用于**创建连续多层级的目录**。
+
+### 文件操作命令1（touch、cat、more）
+
+#### touch：创建文件🔗 [BV1n84y1i7td-P18-[00:17]](https://www.bilibili.com/video/BV1n84y1i7td?p=18&t=17.6)
+
+语法：
+
+```linux
+touch Linux路径
+```
+
+- touch命令**无选项**，**参数必填**，表示**要创建的文件路径**。
+  - 绝对路径、相对路径、特殊路径符均可
+
+#### cat：查看文件内容（Concatenate）🔗 [BV1n84y1i7td-P18-[02:34]](https://www.bilibili.com/video/BV1n84y1i7td?p=18&t=154.3)
+
+语法：
+
+```linux
+cat Linux路径
+```
+
+- cat命令同样**无选项**，**参数必填**，表示**要创建的文件路径**。
+  - 又是绝对路径、相对路径、特殊路径符均可
+
+#### more：查看文件内容🔗 [BV1n84y1i7td-P18-[02:34]](https://www.bilibili.com/video/BV1n84y1i7td?p=18&t=154.3)
+
+语法：
+
+```linux
+more Linux路径
+```
+
+- `more`命令同样可以查看文件内容，同cat不同的是:
+  - `cat`是直接将内容**全部显示**出来
+  - `more`**支持翻页**，如果文件内容过多，可以一页页的展示
+- 在查看的过程中：
+  - 通过**空格**翻页
+  - 通过按键**Q**退出查看
+
+### 文件操作命令2（cp、mv、rm）
+
+#### cp：复制（copy）🔗 [BV1n84y1i7td-P19-[00:21]](https://www.bilibili.com/video/BV1n84y1i7td?p=19&t=21)
+
+`cp`命令可以用于**复制**文件/文件夹。
+语法：
+
+```linux
+cp [-r] 参数1 参数2
+```
+
+- `-r`（recursive）选项，**可选**，用于复制文件夹使用，表示**递归**
+- `参数1`，Linux路径，表示被复制的文件或文件夹
+- `参数2`，Linux路径，表示要复制去的地方
+
+#### mv：移动（move）🔗 [BV1n84y1i7td-P19-[03:09]](https://www.bilibili.com/video/BV1n84y1i7td?p=19&t=189.5)
+
+`mv`命令可以用于**移动**文件/文件夹。
+语法：
+
+```linux
+mv 参数1 参数2
+```
+
+- `参数1`，Linux路径，表示**被移动**的文件或文件夹；
+- `参数2`，Linux路径，表示要**移动去**的地方。
+  - 如果目标不存在，则进行改名，确保目标存在。
+
+#### rm：删除（remove） 🔗 [BV1n84y1i7td-P19-[06:24]](https://www.bilibili.com/video/BV1n84y1i7td?p=19&t=384.5)
+
+`rm`命令可用于删除文件、文件夹
+
+语法：
+
+```linux
+rm [-r -f] 参数1 参数2 ...... 参数N
+```
+
+同`cp`命令一样，`-r`选项用于**删除文件夹**。
+
+- `-f`表示force，**强制删除** (不会弹出提示确认信息)
+  - 普通用户删除内容不会弹出提示(CentOS?)，只有root管理员用户删除内容会有提示，所以一般普通用户用不到-f选项
+- `参数1 参数2 ...... 参数N` 表示要删除的文件或文件夹路径，按照空格隔开
+
+##### rm中的通配符
+
+rm命令支持**通配符***，用来做**模糊匹配**
+符号* 表示通配符，即匹配任意内容 (包含空)，示例:
+
+- `test*`，表示匹配任何以test开头的内容
+- `*test`，表示匹配任何以test结尾的内容
+- `*test*`，表示匹配任何包含test的内容
+
+### 查找命令（which、find）
+
+#### which：查找命令的程序文件🔗 [BV1n84y1i7td-P20-[00:20]](https://www.bilibili.com/video/BV1n84y1i7td?p=20&t=20.3)
+
+Linux命令的本体就是一个个的二进制可执行程序，和Windows系统中的exe文件，是一个意思。
+可以通过`which`命令，查看所使用的一系列命令的程序文件存放在哪里。
+语法：
+
+```linux
+which 要查找的命令
+```
+
+#### find：查找文件🔗 [BV1n84y1i7td-P20-[03:12]]
+
+##### 按文件名查找
+
+(<https://www.bilibili.com/video/BV1n84y1i7td?p=20&t=192.4>)
+语法：
+
+```linux
+find 起始路径 -name "被查找文件名"
+```
+
+##### 通配符🔗 [BV1n84y1i7td-P20-[07:13]](https://www.bilibili.com/video/BV1n84y1i7td?p=20&t=433.6)
+
+##### 按文件大小查找文件
+
+语法：
+
+```linux
+find 起始路径 -size +|-n[kMG]
+```
+
+- +、- 表示大于和小于
+- n表示大小数字
+- kMG表示大小单位，k(小写字母)表示kb，M表示MB，G表示GB
+示例:
+- 查找小于10KB的文件：`find / -size -10k`
+- 查找大于100MB的文件：`find / -size +100M`
+- 查找大于1GB的文件：`find / -size +1G`
+- 查找大小介于100MB和200MB之间的文件：`find / -size +100M -size -200M`
