@@ -204,7 +204,7 @@ rm [-r -f] 参数1 参数2 ...... 参数N
 同`cp`命令一样，`-r`选项用于**删除文件夹**。
 
 - `-f`表示force，**强制删除** (不会弹出提示确认信息)
-  - 普通用户删除内容不会弹出提示(CentOS?)，只有root管理员用户删除内容会有提示，所以一般普通用户用不到-f选项
+  >普通用户删除内容不会弹出提示(CentOS?)，只有root管理员用户删除内容会有提示，所以一般普通用户用不到-f选项
 - `参数1 参数2 ...... 参数N` 表示要删除的文件或文件夹路径，按照空格隔开
 
 ##### rm中的通配符
@@ -257,3 +257,106 @@ find 起始路径 -size +|-n[kMG]
 - 查找大于100MB的文件：`find / -size +100M`
 - 查找大于1GB的文件：`find / -size +1G`
 - 查找大小介于100MB和200MB之间的文件：`find / -size +100M -size -200M`
+
+### grep、wc和管道符（|）
+
+#### grep：在文件中搜索匹配的文本（Global Regular Expression Print）🔗 [BV1n84y1i7td-P21-[00:20]](https://www.bilibili.com/video/BV1n84y1i7td?p=21&t=20.9)
+
+可以通过`grep`命令，从文件中**通过关键字过滤文件行**。
+语法:
+
+```linux
+grep [-n] 关键字 文件路径
+```
+
+- 选项`-n`，**可选**，表示在结果中显示匹配的行的行号
+- 参数，关键字，**必填**，表示过滤的关键字
+  - 带有**空格或其它特殊符号**，建议使用`""`将关键字**包围**起来
+- 参数，文件路径，**必填**，表示要过滤内容的文件路径，**可作为内容输入端口**
+
+#### wc：数量统计（Word Count）🔗 [BV1n84y1i7td-P21-[04:24]](https://www.bilibili.com/video/BV1n84y1i7td?p=21&t=264)
+
+语法：`wc [-c -m -l -w] 文件路径`
+
+- 选项，-c，统计bytes数量
+- 选项，-m，统计字符数量
+- 选项，-l，统计行数
+- 选项，-w，统计单词数量（按空格划分）
+- 参数，文件路径，被统计的文件，**可作为内容输入端口**
+
+#### |：管道符🔗 [BV1n84y1i7td-P21-[07:23]](https://www.bilibili.com/video/BV1n84y1i7td?p=21&t=443.4)
+
+写法：`|`
+
+功能：将符号左边的结果，作为符号右边的输入
+
+示例：
+
+`cat a.txt | grep itheima`，将cat a.txt的结果，作为grep命令的输入，用来过滤`itheima`关键字
+
+可以支持嵌套：
+
+`cat a.txt | grep itheima | grep itcast`
+
+- 这里的左边`cat a.txt`的返回值作为一个参数传给后面的`grep itheima`，
+- 再把拼成的`cat a.txt | grep itheima`的返回值作为一个参数整体传给`grep itcast`。
+
+### echo、tail和重定向符
+
+#### echo：输出🔗 [BV1n84y1i7td-P22-[00:24]](https://www.bilibili.com/video/BV1n84y1i7td?p=22&t=24.8)
+
+功能：将文本或变量的值输出到标准输出（通常是终端），相当于print
+
+语法：
+
+```linux
+echo 参数
+```
+
+- 参数：被输出的内容
+
+> 带有 空格 或 \ 等特殊符号的时候，建议用双引号包围被输出的内容，以防识别为参数。
+
+#### ` ：反引号🔗 [BV1n84y1i7td-P22-[02:12]](https://www.bilibili.com/video/BV1n84y1i7td?p=22&t=132.8)
+
+功能：被两个反引号包围的内容，会作为命令执行
+
+示例：
+
+- echo \`pwd\`，会输出当前工作目录
+- 而 echo pwd ，仅输出 pwd
+
+#### `>` & `>>` ：重定向符🔗 [BV1n84y1i7td-P22-[03:29]](https://www.bilibili.com/video/BV1n84y1i7td?p=22&t=209.4)
+
+功能：将符号左边的结果，输出到右边指定的文件中去
+
+- `>`，表示**覆盖输出**
+- `>>`，表示**追加输出**
+
+示例：
+shiquda@LAPTOP:~/test$ cat test.txt
+> test test test
+
+覆盖原有内容：
+shiquda@LAPTOP:~/test$ echo test > test.txt
+shiquda@LAPTOP:~/test$ cat test.txt
+> test
+
+追加内容：
+shiquda@LAPTOP:~/test$ echo test >> test.txt
+shiquda@LAPTOP:~/test$ cat test.txt
+> test
+test
+
+#### tail：查看文件尾部内容🔗 [BV1n84y1i7td-P22-[06:39]](https://www.bilibili.com/video/BV1n84y1i7td?p=22&t=399.1)
+
+功能：查看文件尾部内容
+
+语法：`tail [-f -num] Linux路径`
+
+- 参数：被查看的文件
+- 选项：-f，持续跟踪文件修改。
+  - 当指定的文件被更改时，会自动输出新增加的内容
+  - 可以使用`Ctrl + C`强制退出
+- 选项，-num，表示查看尾部的行数，不填**默认为10**。
+  - 使用时要把num替**换为相应的数字**，例如 -5
